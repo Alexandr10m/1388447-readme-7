@@ -21,10 +21,7 @@ export class AuthenticationService {
     private readonly blogUserRepository: BlogUserRepository,
     @Inject(dbConfig.KEY) private databaseConfig: ConfigType<typeof dbConfig>,
     private readonly configService: ConfigService,
-  ) {
-    //TODO console.log('Approach (getting .env) with KEY - Host :', databaseConfig.host)
-    //TODO console.log('Approach (getting .env) with ConfigService - Host :', configService.get<string>('db.host'))
-  }
+  ) {}
 
   public async register(dto: CreateUserDto): Promise<BlogUserEntity> {
     const {
