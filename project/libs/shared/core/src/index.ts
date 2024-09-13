@@ -6,3 +6,6 @@ export {UserRole} from './lib/types/user-role.enum';
 
 export {StorableEntity} from './lib/types/storable-entity.interface';
 export {EntityFactory} from './lib/types/entity-factory.interface';
+export {Category} from './lib/types/category.interface';
+export {Post} from './lib/types/post.interface';
+export {Comment} from './lib/types/comment.interface';
