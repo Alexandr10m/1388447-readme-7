@@ -12,7 +12,7 @@ export abstract class BasePostgresRepository<
     protected readonly client: PrismaClientService,
   ) {}
 
-  protected createEntityFromDocument(document: DocumentType): T | null {
+  protected createEntityFromDocument(document: DocumentType): T {
     if (! document) {
       return null;
     }

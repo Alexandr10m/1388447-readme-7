@@ -4,12 +4,13 @@ import {ConfigModule} from "@nestjs/config";
 import applicationConfig from './app.config';
 import mongoConfig from './mongo.config';
 import {ENV_USERS_FILE_PATH} from './account-config.constants';
+import jwtConfig from "../jwt/jwt.config";
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
     cache: true,
-    load: [applicationConfig, mongoConfig],
+    load: [applicationConfig, mongoConfig, jwtConfig],
     envFilePath: ENV_USERS_FILE_PATH,
   })],
 })

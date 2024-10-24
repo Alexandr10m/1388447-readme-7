@@ -9,3 +9,7 @@ export {EntityFactory} from './lib/types/entity-factory.interface';
 export {Category} from './lib/types/category.interface';
 export {Post} from './lib/types/post.interface';
 export {Comment} from './lib/types/comment.interface';
+export {SortDirection} from './lib/types/sort-direction.interface';
+export {PaginationResult} from './lib/types/pagination.interface';
+export {Token} from './lib/types/token.interface';
+export {TokenPayload} from './lib/types/token-payload.interface';

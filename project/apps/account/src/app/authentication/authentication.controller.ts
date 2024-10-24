@@ -1,5 +1,7 @@
-import {Controller, Body, Post, Get, Param, HttpStatus} from '@nestjs/common';
+import {Controller, Body, Post, Get, Param, HttpStatus, UseGuards} from '@nestjs/common';
 import {ApiTags, ApiResponse} from '@nestjs/swagger';
+
+import {MongoIdValidationPipe} from "@project/pipes";
 
 import {AuthenticationService} from "./authentication.service";
 import {CreateUserDto} from "./data-transfer-object/create-user.dto";
@@ -7,7 +9,8 @@ import {LoginUserDto} from "./data-transfer-object/login-user.dto";
 import {UserRdo} from './response-data-object/user.rdo';
 import {LoggedUserRdo} from "./response-data-object/logged-user.rdo";
 import {AuthenticationResponseMessage} from './authentication.constant';
-
+import {fillDto} from "@project/helpers";
+import {JwtAuthGuard} from "../jwt/jwt-auth.guard";
 
 ApiTags('authentication')
 @Controller('auth')
@@ -40,7 +43,8 @@ export class AuthenticationController {
   @Post('login')
   public async login(@Body() dto: LoginUserDto) {
     const verifiedUser = await this.authService.verifyUser(dto);
-    return verifiedUser.toPOJO();
+    const userToken = await this.authService.createUserToken(verifiedUser)
+    return fillDto(LoggedUserRdo, {...verifiedUser.toPOJO(), ...userToken})
   }
 
   @ApiResponse({
@@ -53,8 +57,15 @@ export class AuthenticationController {
     description: AuthenticationResponseMessage.UserNotFound
   })
   @Get(':id')
-  public async show(@Param('id') id: string) {
+  public async show(@Param('id', MongoIdValidationPipe) id: string) {
     const existUser = await this.authService.getUser(id);
     return existUser.toPOJO();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/demo/:id')
+  // ** auto transform id to number because ValidationPipe(transform: true) and id: number
+  public async demoPipe(@Param('id') id: number) {
+    console.log(typeof id)
   }
 }

@@ -4,23 +4,24 @@ import {
   NotFoundException,
   UnauthorizedException,
   Injectable,
-  Inject,
+  HttpException,
+  HttpStatus,
+  Logger,
 } from '@nestjs/common';
-import {ConfigType, ConfigService} from '@nestjs/config';
+import { JwtService} from "@nestjs/jwt";
 
 import {BlogUserRepository, BlogUserEntity} from "../blog-user";
 import {CreateUserDto} from "./data-transfer-object/create-user.dto";
-import {UserRole} from "@project/core";
+import {UserRole, Token, TokenPayload, User} from "@project/core";
 import {AUTH_USER_EXIST, AUTH_USER_NOT_FOUND, AUTH_USER_PASSWORD_WRONG} from "./authentication.constant";
 import {LoginUserDto} from "./data-transfer-object/login-user.dto";
-import {dbConfig} from "../account-config";
 
 @Injectable()
 export class AuthenticationService {
+  private readonly logger = new Logger(AuthenticationService.name);
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
-    @Inject(dbConfig.KEY) private databaseConfig: ConfigType<typeof dbConfig>,
-    private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
   ) {}
 
   public async register(dto: CreateUserDto): Promise<BlogUserEntity> {
@@ -74,5 +75,23 @@ export class AuthenticationService {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
     return user;
+  }
+
+  public async createUserToken(user: User): Promise<Token> {
+    const payload: TokenPayload = {
+      sub: user.id,
+      email: user.email,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      role: user.role,
+    }
+
+    try {
+      const accessToken = await this.jwtService.signAsync(payload);
+      return {accessToken}
+    } catch (error) {
+      this.logger.error('[Token generation error]: ' + error.message);
+      throw new HttpException('Error when token is creating.', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
