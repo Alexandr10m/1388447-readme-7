@@ -4,6 +4,7 @@ import {MongooseModule} from '@nestjs/mongoose';
 import { BlogUserModule } from './blog-user';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AccountConfigModule, getMongooseOptions } from './account-config';
+import {AccountNotifyModule} from "@project/account-notify";
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { AccountConfigModule, getMongooseOptions } from './account-config';
     AccountConfigModule,
     MongooseModule.forRootAsync(
       getMongooseOptions()
-    )
+    ),
+    AccountNotifyModule,
   ],
   controllers: [],
   providers: [],

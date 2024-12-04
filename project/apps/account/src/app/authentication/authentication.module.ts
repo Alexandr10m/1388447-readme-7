@@ -7,12 +7,17 @@ import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
 import {JwtAccessStrategy} from "../jwt/strategies/jwt-access.strategy";
 import {getJwtOptions} from "../jwt/get-jwt-options";
+import {AccountNotifyModule} from "@project/account-notify";
 
 @Module({
-  imports: [BlogUserModule, JwtModule.registerAsync({
-    inject: [ConfigService],
-    useFactory: getJwtOptions,
-  })],
+  imports: [
+    BlogUserModule,
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: getJwtOptions,
+    }),
+    AccountNotifyModule,
+  ],
   controllers: [AuthenticationController],
   providers: [AuthenticationService, JwtAccessStrategy],
 })
