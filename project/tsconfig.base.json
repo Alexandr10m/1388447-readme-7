@@ -26,8 +26,12 @@
       "@project/file-uploader": ["libs/file-vault/file-uploader/src/index.ts"],
       "@project/file-vault-config": ["libs/file-vault/config/src/index.ts"],
       "@project/helpers": ["libs/shared/helpers/src/index.ts"],
+      "@project/interceptors": ["libs/shared/interceptors/src/index.ts"],
       "@project/notify-config": ["libs/notify/src/index.ts"],
-      "@project/pipes": ["libs/shared/pipes/src/index.ts"]
+      "@project/pipes": ["libs/shared/pipes/src/index.ts"],
+      "@project/refresh-token-module": [
+        "libs/account/refresh-token-module/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

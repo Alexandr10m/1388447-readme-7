@@ -17,3 +17,5 @@ export {File} from './lib/types/file.interface';
 export {StoredFile} from './lib/types/stored-file.interface'
 export {Subscriber} from './lib/types/subscriber.interface';
 export {RabbitRouting} from './lib/types/rabbit-routing.enum';
+export {JwtToken} from './lib/types/jwt-token.interface';
+export {RefreshTokenPayload} from './lib/types/refresh-token-payload.interface';

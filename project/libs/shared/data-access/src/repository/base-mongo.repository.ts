@@ -14,8 +14,8 @@ export abstract class BaseMongoRepository<T extends Entity & StorableEntity<Retu
     if (!document) {
       return null;
     }
-
-    const plainObject = document.toObject({versionKey: false}) as ReturnType<T['toPOJO']>
+// TODO why was changed and added getters: true and flattenObjectIds: true}
+    const plainObject = document.toObject({getters: true, versionKey: false, flattenObjectIds: true}) as ReturnType<T['toPOJO']>
     return this.entityFactory.create(plainObject);
   }
 
