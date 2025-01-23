@@ -5,6 +5,19 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack" ,
+      "outputs":["{options.outputPath}"],
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/api",
+        "main": "apps/api/tsconfig.app.json",
+        "assets": ["apps/api/src/assets"],
+        "generatePackageJson": true,
+        "webpackConfig": "apps/api/webpack.config.js"
+      }
+    },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
@@ -18,6 +31,15 @@
         "production": {
           "buildTarget": "api:build:production"
         }
+      }
+    },
+    "buildImage": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx run api:build",
+          "docker build --file ./apps/api/Dockerfile --tag readme.api:1.0.0 ."
+        ]
       }
     }
   }

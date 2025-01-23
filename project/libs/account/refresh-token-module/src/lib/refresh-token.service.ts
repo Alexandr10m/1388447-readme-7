@@ -20,6 +20,7 @@ export class RefreshTokenService {
       tokenId: payload.tokenId,
       createdAt: new Date(),
       userId: payload.sub,
+      // @ts-ignore
       expiresIn: dayjs().add(timeValue.value, timeValue.unit).toDate(),
     })
 

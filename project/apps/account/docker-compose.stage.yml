@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  readme.account.mongo:
+    container_name: readme.account.mongo
+    restart: always
+    volumes:
+      - readme.account.mongo.volume:/data/db
+    env_file:
+      - .readme.account.mongodb.env
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh readme.account.mongo:27017/readme.account.
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    networks:
+      - readme.account.network
+
+  application:
+    image: readme.account:1.0.0
+    depends_on:
+      - readme.account.mongo
+    container_name: readme.account.app
+    restart: always
+    ports:
+      - "3333:3333"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .readme.account.env
+    networks:
+      - readme.account.network
+
+volumes:
+  readme.account.mongo.volume: {}
+
+networks:
+  readme.account.network:
+    driver: bridge

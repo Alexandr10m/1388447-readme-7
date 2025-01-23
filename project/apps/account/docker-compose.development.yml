@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  readme.account.mongo:
+    container_name: readme.account.mongo
+    restart: 'no'
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./db:/data/db
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: readme-account

@@ -1,0 +1,5 @@
+webservers:
+  hosts:
+    198.87.1.7:
+      ansible_connection: ssh
+      ansible_user: root

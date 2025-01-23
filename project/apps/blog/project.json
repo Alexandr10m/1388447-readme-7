@@ -7,6 +7,28 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack" ,
+      "outputs":["{options.outputPath}"],
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/blog",
+        "main": "apps/blog/tsconfig.app.json",
+        "assets": ["apps/blog/src/assets"],
+        "generatePackageJson": true,
+        "webpackConfig": "apps/blog/webpack.config.js"
+      }
+    },
+    "buildImage": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npx nx run blog:build",
+          "docker build --file ./apps/blog/Dockerfile --tag readme.blog:1.0.0 ."
+        ]
+      }
+    },
     "serve": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
